@@ -51,3 +51,27 @@ function hyp4rt_metabox_content( $post ) {
 		echo '</label></p>';
 	}
 }
+
+/**
+ * Save the selected authors when the post is saved.
+ */
+function hyp4rt_save_metabox_data( $post_id ) {
+	// Check if nonce is set.
+	if ( ! isset( $_POST['contributors_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['contributors_nonce'] ) ), 'contributors_nonce_action' ) ) {
+		return;
+	}
+
+	// Check if the current user has permission to edit the post.
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	// Save or delete the meta data.
+	if ( isset( $_POST['contributors'] ) ) {
+		$contributors = array_map( 'sanitize_text_field', wp_unslash( $_POST['contributors'] ) );
+		update_post_meta( $post_id, '_contributors', $contributors );
+	} else {
+		delete_post_meta( $post_id, '_contributors' );
+	}
+}
+add_action( 'save_post', 'hyp4rt_save_metabox_data' );
