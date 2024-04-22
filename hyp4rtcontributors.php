@@ -75,3 +75,39 @@ function hyp4rt_save_metabox_data( $post_id ) {
 	}
 }
 add_action( 'save_post', 'hyp4rt_save_metabox_data' );
+
+/**
+ * Display Contributors box.
+ */
+function hyp4rt_display_contributors( $content ) {
+	if ( is_single() && is_main_query() ) {
+		global $post;
+		// Get the stored contributors.
+		$contributors = get_post_meta( $post->ID, '_contributors', true );
+
+		if ( ! empty( $contributors ) ) {
+			$contributors_html  = '<div class="contributors-box">';
+			$contributors_html .= '<h3>Contributors</h3>';
+			$contributors_html .= '<ul>';
+
+			foreach ( $contributors as $contributor_id ) {
+				$contributor = get_userdata( $contributor_id );
+				if ( $contributor ) {
+					$avatar           = get_avatar( $contributor_id, 64 );
+					$author_url       = get_author_posts_url( $contributor_id );
+					$contributor_name = $contributor->display_name;
+
+					$contributors_html .= '<li>' . $avatar . ' <a href="' . esc_url( $author_url ) . '">' . esc_html( $contributor_name ) . '</a></li>';
+				}
+			}
+
+			$contributors_html .= '</ul>';
+			$contributors_html .= '</div>';
+
+			$content .= $contributors_html;
+		}
+	}
+
+	return $content;
+}
+add_filter( 'the_content', 'hyp4rt_display_contributors' );
