@@ -1,0 +1,26 @@
+/* CSS for .contributors-box */
+.contributors-box {
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+}
+
+.contributors-box h3 {
+	color: #333;
+}
+
+.contributors-box ul {
+	list-style: none;
+}
+
+.contributors-box li {
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.contributors-box li img {
+	margin-right: 10px;
+	border-radius: 50%;
+}
