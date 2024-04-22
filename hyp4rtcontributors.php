@@ -13,6 +13,15 @@
  */
 
 /**
+ * Load scripts in the site frontend.
+ */
+function hyp4rt_enqueue() {
+	// Enqueue styles.
+	wp_enqueue_style( 'hyp4rtcontributors', plugin_dir_url( __FILE__ ) . 'css/hyp4rtcontributors.css', array(), '1.0.0', 'all' );
+}
+add_action( 'wp_enqueue_scripts', 'hyp4rt_enqueue' );
+
+ /**
  * Add a metabox labelled Contributors.
  */
 function hyp4rt_contributors_metabox() {
