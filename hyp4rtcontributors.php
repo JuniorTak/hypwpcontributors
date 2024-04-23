@@ -21,7 +21,7 @@ function hyp4rt_enqueue() {
 }
 add_action( 'wp_enqueue_scripts', 'hyp4rt_enqueue' );
 
- /**
+/**
  * Add a metabox labelled Contributors.
  */
 function hyp4rt_contributors_metabox() {
@@ -38,6 +38,9 @@ add_action( 'add_meta_boxes', 'hyp4rt_contributors_metabox' );
 
 /**
  * Define the callback function for the metabox content.
+ *
+ * @param mixed $post The post.
+ * @return void
  */
 function hyp4rt_metabox_content( $post ) {
 	// Nonce field for security.
@@ -63,6 +66,9 @@ function hyp4rt_metabox_content( $post ) {
 
 /**
  * Save the selected authors when the post is saved.
+ *
+ * @param int $post_id The post id.
+ * @return void
  */
 function hyp4rt_save_metabox_data( $post_id ) {
 	// Check if nonce is set.
@@ -87,6 +93,9 @@ add_action( 'save_post', 'hyp4rt_save_metabox_data' );
 
 /**
  * Display Contributors box.
+ *
+ * @param string $content The post content.
+ * @return string
  */
 function hyp4rt_display_contributors( $content ) {
 	if ( is_single() && is_main_query() ) {
