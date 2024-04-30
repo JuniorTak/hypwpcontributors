@@ -65,4 +65,14 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 		// Check if the output contains a checkbox input.
 		$this->assertStringContainsString( '<input type="checkbox"', $output );
 	}
+
+	/**
+	 * Save metabox data test.
+	 */
+	public function test_hyp4rt_save_metabox_data() {}
+
+	/**
+	 * Display contributors test.
+	 */
+	public function test_hyp4rt_display_contributors() {}
 }
