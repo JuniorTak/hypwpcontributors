@@ -21,7 +21,13 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	 *
 	 * @var int
 	 */
-	private $user_id;
+	private $user1_id;
+	/**
+	 * The user id
+	 *
+	 * @var int
+	 */
+	private $user2_id;
 
 	/**
 	 * The setUp function.
@@ -29,9 +35,10 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		// Create a new post and a new user for our simulations.
-		$this->post_id = $this->factory->post->create();
-		$this->user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		// Create a new post and new users for our simulations.
+		$this->post_id  = $this->factory->post->create();
+		$this->user1_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		$this->user2_id = $this->factory->user->create( array( 'role' => 'author' ) );
 	}
 
 	/**
@@ -39,7 +46,8 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	 */
 	public function tearDown() {
 		wp_delete_post( $this->post_id, true );
-		wp_delete_user( $this->user_id );
+		wp_delete_user( $this->user1_id );
+		wp_delete_user( $this->user2_id );
 		parent::tearDown();
 	}
 
@@ -79,7 +87,7 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	 */
 	public function test_hyp4rt_save_metabox_data() {
 		// Set current user with proper permission.
-		wp_set_current_user( $this->user_id );
+		wp_set_current_user( $this->user1_id );
 
 		// Set up nonce.
 		$_POST['contributors_nonce'] = wp_create_nonce( 'contributors_nonce_action' );
@@ -90,14 +98,43 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 		// Simulate the save post action.
 		do_action( 'save_post', $this->post_id );
 
-		$contributors_id = get_post_meta( $this->post_id, '_contributors', true );
+		$saved_contributors = get_post_meta( $this->post_id, '_contributors', true );
 
 		// Verify metadata is saved correctly.
-		$this->assertEquals( array( '1', '2' ), $contributors_id );
+		$this->assertEquals( array( '1', '2' ), $saved_contributors );
 	}
 
 	/**
 	 * Display contributors test.
 	 */
-	public function test_hyp4rt_display_contributors() {}
+	public function test_hyp4rt_display_contributors() {
+		// Update postmeta for our simulation.
+		update_post_meta( $this->post_id, '_contributors', array( $this->user2_id ) );
+
+		// Simulate visiting the single post.
+		$this->go_to( get_permalink( $this->post_id ) );
+
+		$post = get_post( $this->post_id );
+
+		// Apply the content filter.
+		$content = apply_filters( 'the_content', $post->post_content );
+
+		// Assertions to verify that the contributors box is being outputted correctly.
+		$this->assertStringContainsString( 'contributors-box', $content );
+		$this->assertStringContainsString(
+			get_avatar(
+				$this->user2_id,
+				64,
+				'',
+				'',
+				array(
+					'loading'  => 'null',
+					'decoding' => 'null',
+				)
+			),
+			$content
+		);
+		$this->assertStringContainsString( get_author_posts_url( $this->user2_id ), $content );
+		$this->assertStringContainsString( get_userdata( $this->user2_id )->display_name, $content );
+	}
 }
