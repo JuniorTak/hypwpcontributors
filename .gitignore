@@ -1,0 +1,36 @@
+### WordPress ###
+# Plugin
+#
+# Created by Hyppolite T.
+
+### WordPress Testing Library ###
+/bin/install-wp-tests.sh
+/.circleci/config.yml
+/tests/bootstrap.php
+/tests/test-sample.php
+
+### Dependencies ###
+/vendor/
+/composer.json
+/composer.lock
+
+### PHPUnit ###
+# Covers PHPUnit
+# Reference: https://phpunit.de/
+
+# Generated files
+.phpunit.cache
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+/phpunit.xml.dist
+
+# Build data
+/build/
+
+### Automated PHPCS Check ###
+/.github/*
+/phpcs.xml
+/phpcs.xml.dist
+/.phpcs.xml.dist
