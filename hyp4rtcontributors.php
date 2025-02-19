@@ -3,14 +3,18 @@
  * @package HypContributors
  *
  * Plugin Name: Hyp Contributors
- * Plugin URI: https://github.com/rtlearn/wpcs-JuniorTak
+ * Plugin URI: https://github.com/JuniorTak/hypwpcontributors
  * Description: Add contributors to blog posts
  * Version: 1.0
- * Author: Hyppolite Takoua Foduop
- * Author URI: https://www.hyppolitetakouafoduop.online
+ * Author: Hyppolite T.
+ * Author URI: https://hyppolitetakouafoduop.mystrikingly.com/
  * License: GPLv2 or later
  * Text Domain: hypcontributors
  */
+
+ if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Load scripts in the site frontend.
