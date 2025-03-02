@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Test_Hyp_Contributors
+ * Class TestHypContributors
  *
  * @package HypContributors
  */
@@ -8,7 +8,7 @@
 /**
  * Hyp Contributors test case.
  */
-class Test_Hyp_Contributors extends WP_UnitTestCase {
+class TestHypContributors extends WP_UnitTestCase {
 
 	/**
 	 * The post id
@@ -32,7 +32,7 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	/**
 	 * The setUp function.
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		// Create a new post and new users for our simulations.
@@ -44,7 +44,7 @@ class Test_Hyp_Contributors extends WP_UnitTestCase {
 	/**
 	 * The tearDown function.
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		wp_delete_post( $this->post_id, true );
 		wp_delete_user( $this->user1_id );
 		wp_delete_user( $this->user2_id );
