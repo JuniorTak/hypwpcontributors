@@ -11,8 +11,6 @@
 
 ### Dependencies ###
 /vendor/
-/composer.json
-/composer.lock
 
 ### PHPUnit ###
 # Covers PHPUnit
@@ -20,11 +18,25 @@
 
 # Generated files
 .phpunit.cache
+.phpunit.result.cache
 
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
 /phpunit.xml.dist
+
+# PHPUnit test coverage reports
+coverage/
+coverage.xml
+clover.xml
+phpunit-coverage.xml
+phpunit.log
+
+# PHPUnit-generated JUnit reports
+junit.xml
+
+# PHPUnit test logs
+testdox.txt
 
 # Build data
 /build/
