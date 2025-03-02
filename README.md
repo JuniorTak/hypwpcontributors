@@ -1,8 +1,6 @@
-# wpcs-JuniorTak
+# Hypwpcontributors
 
-This is the Github repo of my codes for the submission of the rtCamp WordPress Plugin Assignment.
-
-Assignment: WordPress-Contributors Plugin
+A WordPress plugin to add contributors to post/page, based on [rtCamp](https://rtcamp.com/) WordPress-Contributors Plugin assignment.
 
 ## Usage
 
@@ -21,13 +19,12 @@ http://hyp4rt.infinityfreeapp.com/2024/05/04/demo-post/
 
 ## Running Tests
 
-Before running tests, make sure to properly set up the [WordPress Testing Library](https://make.wordpress.org/core/handbook/testing/automated-testing/).
+Before running tests, make sure to properly set up the [WordPress Testing Suite](https://make.wordpress.org/cli/handbook/misc/plugin-unit-tests/#running-tests-locally) which requires [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/).
 
-Run the following [Composer](https://getcomposer.org/) commands to install dependencies
+Then, run the following command to install [Composer](https://getcomposer.org/) dependencies
 
 ```bash
-  composer require --dev phpunit/phpunit
-  composer require --dev yoast/phpunit-polyfills
+  composer install
 ```
 
 To run tests, run the following command
@@ -35,3 +32,5 @@ To run tests, run the following command
 ```bash
   ./vendor/bin/phpunit tests/TestHypContributors.php
 ```
+
+If you encounter any issue while setting up PHP Unit Tests, please refer to this [guide on fixing common issues while setting up php unit tests for wordpress plugins](https://sanjeebaryal.com.np/fixing-issues-while-setting-up-php-unit-tests-for-wordpress-plugins/).
