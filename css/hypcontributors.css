@@ -1,0 +1,22 @@
+/* CSS for .contributors-box */
+.hypcontributors-box {
+	margin-top: 20px;
+	padding: 20px;
+	border: 1px solid;
+}
+
+.hypcontributors-box ul {
+	list-style: none;
+	margin: 10px 0;
+}
+
+.hypcontributors-box li {
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.hypcontributors-box li img {
+	margin-right: 10px;
+	border-radius: 50%;
+}

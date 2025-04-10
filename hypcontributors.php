@@ -19,26 +19,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Load scripts in the site frontend.
  */
-function hyp4rt_enqueue() {
+function hypcontributors_enqueue() {
 	// Enqueue styles.
-	wp_enqueue_style( 'hyp4rtcontributors', plugin_dir_url( __FILE__ ) . 'css/hyp4rtcontributors.css', array(), '1.0.0', 'all' );
+	wp_enqueue_style( 'hypcontributors', plugin_dir_url( __FILE__ ) . 'css/hypcontributors.css', array(), '1.0.0', 'all' );
 }
-add_action( 'wp_enqueue_scripts', 'hyp4rt_enqueue' );
+add_action( 'wp_enqueue_scripts', 'hypcontributors_enqueue' );
 
 /**
  * Add a metabox labelled Contributors.
  */
-function hyp4rt_contributors_metabox() {
+function hypcontributors_metabox() {
 	add_meta_box(
-		'hyp4rt_contributors_metabox',  // ID of the metabox.
+		'hypcontributors_metabox',  // ID of the metabox.
 		'Contributors',                 // Title of the metabox.
-		'hyp4rt_metabox_content',       // Callback function.
+		'hypcontributors_metabox_content',       // Callback function.
 		'post',                         // Post type.
 		'side',                         // Context.
 		'default'                       // Priority.
 	);
 }
-add_action( 'add_meta_boxes', 'hyp4rt_contributors_metabox' );
+add_action( 'add_meta_boxes', 'hypcontributors_metabox' );
 
 /**
  * Define the callback function for the metabox content.
@@ -46,23 +46,23 @@ add_action( 'add_meta_boxes', 'hyp4rt_contributors_metabox' );
  * @param mixed $post The post.
  * @return void
  */
-function hyp4rt_metabox_content( $post ) {
+function hypcontributors_metabox_content( $post ) {
 	// Nonce field for security.
-	wp_nonce_field( 'contributors_nonce_action', 'contributors_nonce' );
+	wp_nonce_field( 'hypcontributors_nonce_action', 'hypcontributors_nonce' );
 
 	// Get all users.
 	$authors = get_users();
 	// Get saved contributors.
-	$saved_contributors = get_post_meta( $post->ID, '_contributors', true );
+	$saved_contributors = get_post_meta( $post->ID, '_hypcontributors', true );
 	if ( ! is_array( $saved_contributors ) ) {
 		$saved_contributors = array();
 	}
 
 	// Display checkboxes for each author.
 	foreach ( $authors as $author ) {
-		$checked = in_array( $author->ID, $saved_contributors, true ) ? 'checked' : '';
+		$checked = in_array( $author->ID, $saved_contributors ) ? 'checked' : '';
 		echo '<p><label>';
-		echo '<input type="checkbox" name="contributors[]" value="' . esc_attr( $author->ID ) . '" ' . esc_attr( $checked ) . '> ';
+		echo '<input type="checkbox" name="hypcontributors[]" value="' . esc_attr( $author->ID ) . '" ' . esc_attr( $checked ) . '> ';
 		echo esc_html( $author->display_name );
 		echo '</label></p>';
 	}
@@ -74,9 +74,9 @@ function hyp4rt_metabox_content( $post ) {
  * @param int $post_id The post id.
  * @return void
  */
-function hyp4rt_save_metabox_data( $post_id ) {
+function hypcontributors_save_metabox_data( $post_id ) {
 	// Check if nonce is set.
-	if ( ! isset( $_POST['contributors_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['contributors_nonce'] ) ), 'contributors_nonce_action' ) ) {
+	if ( ! isset( $_POST['hypcontributors_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hypcontributors_nonce'] ) ), 'hypcontributors_nonce_action' ) ) {
 		return;
 	}
 
@@ -86,14 +86,14 @@ function hyp4rt_save_metabox_data( $post_id ) {
 	}
 
 	// Save or delete the meta data.
-	if ( isset( $_POST['contributors'] ) ) {
-		$contributors = array_map( 'sanitize_text_field', wp_unslash( $_POST['contributors'] ) );
-		update_post_meta( $post_id, '_contributors', $contributors );
+	if ( isset( $_POST['hypcontributors'] ) ) {
+		$contributors = array_map( 'sanitize_text_field', wp_unslash( $_POST['hypcontributors'] ) );
+		update_post_meta( $post_id, '_hypcontributors', $contributors );
 	} else {
-		delete_post_meta( $post_id, '_contributors' );
+		delete_post_meta( $post_id, '_hypcontributors' );
 	}
 }
-add_action( 'save_post', 'hyp4rt_save_metabox_data' );
+add_action( 'save_post', 'hypcontributors_save_metabox_data' );
 
 /**
  * Display Contributors box.
@@ -101,14 +101,14 @@ add_action( 'save_post', 'hyp4rt_save_metabox_data' );
  * @param string $content The post content.
  * @return string
  */
-function hyp4rt_display_contributors( $content ) {
+function hypcontributors_display( $content ) {
 	if ( is_single() && is_main_query() ) {
 		global $post;
 		// Get the stored contributors.
-		$contributors = get_post_meta( $post->ID, '_contributors', true );
+		$contributors = get_post_meta( $post->ID, '_hypcontributors', true );
 
 		if ( ! empty( $contributors ) ) {
-			$contributors_html  = '<div class="contributors-box">';
+			$contributors_html  = '<div class="hypcontributors-box">';
 			$contributors_html .= '<h3>Contributors</h3>';
 			$contributors_html .= '<ul>';
 
@@ -132,4 +132,4 @@ function hyp4rt_display_contributors( $content ) {
 
 	return $content;
 }
-add_filter( 'the_content', 'hyp4rt_display_contributors' );
+add_filter( 'the_content', 'hypcontributors_display' );
